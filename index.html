@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo dos Sentimentos</title>
+  <style>
+    :root {
+      --primary-color: #ff4b72;
+      --secondary-color: #ff85a1;
+      --bg-color: #fff5f7;
+      --card-bg: #ffffff;
+      --text-color: #2c2c2c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      margin-top: 20px;
+    }
+
+    header h1 {
+      color: var(--primary-color);
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.1);
+      text-align: center;
+    }
+
+    .card h2 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.1s;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #e03a5f;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .message-display {
+      margin-top: 20px;
+      padding: 15px;
+      border-left: 4px solid var(--primary-color);
+      background-color: #fff0f3;
+      font-style: italic;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .meter-container {
+      margin-top: 15px;
+    }
+
+    .meter-bar {
+      width: 100%;
+      height: 20px;
+      background-color: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+      transition: width 0.5s ease-in-out;
+    }
+
+    /* Animação dos Corações ao clicar */
+    .heart {
+      position: absolute;
+      color: var(--primary-color);
+      font-size: 20px;
+      pointer-events: none;
+      animation: floatUp 1.5s ease-out forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Cantinho dos Sentimentos</h1>
+    <p>Clique em qualquer lugar para espalhar amor!</p>
+  </header>
+
+  <div class="container">
+    
+    <!-- Gerador de Mensagens -->
+    <div class="card">
+      <h2>Carta do Dia</h2>
+      <button id="msgBtn">Sortear uma mensagem</button>
+      <div class="message-display" id="msgDisplay">
+        Clique no botão para ler uma reflexão sobre carinho e amor.
+      </div>
+    </div>
+
+    <!-- Medidor de Sentimentos -->
+    <div class="card">
+      <h2>Calculadora da Afetividade</h2>
+      <p style="margin-bottom: 15px; color: #555;">Descubra a energia do dia:</p>
+      <div class="meter-bar">
+        <div class="meter-fill" id="meterFill"></div>
+      </div>
+      <button id="meterBtn">Medir Energia</button>
+      <p id="meterText" style="margin-top: 15px; font-weight: bold; color: var(--primary-color);"></p>
+    </div>
+
+  </div>
+
+  <script>
+    // Lista de mensagens amorosas e reflexivas
+    const mensagens = [
+      "O amor é a força mais abstrata, e a mais potente que há no mundo.",
+      "Aprecie as pequenas demonstrações de afeto do dia a dia.",
+      "Cuidar de quem amamos é uma das formas mais bonitas de presença.",
+      "O afeto verdadeiro cresce no respeito e na gentileza diária.",
+      "Estar junto é construir memórias que o tempo não apaga."
+    ];
+
+    const msgBtn = document.getElementById('msgBtn');
+    const msgDisplay = document.getElementById('msgDisplay');
+
+    msgBtn.addEventListener('click', () => {
+      const indiceSorteado = Math.floor(Math.random() * mensagens.length);
+      msgDisplay.textContent = `"${mensagens[indiceSorteado]}"`;
+    });
+
+    // Lógica do Medidor
+    const meterBtn = document.getElementById('meterBtn');
+    const meterFill = document.getElementById('meterFill');
+    const meterText = document.getElementById('meterText');
+
+    meterBtn.addEventListener('click', () => {
+      const porcentagem = Math.floor(Math.random() * 41) + 60; // Gera valor entre 60% e 100%
+      meterFill.style.width = porcentagem + '%';
+      meterText.textContent = `Nível de carinho no ar: ${porcentagem}%!`;
+    });
+
+    // Efeito de corações flutuantes ao clicar na tela
+    document.addEventListener('click', (e) => {
+      // Evita criar coração se o clique for dentro de um botão
+      if (e.target.tagName === 'BUTTON') return;
+
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '♥';
+      heart.style.left = `${e.clientX - 10}px`;
+      heart.style.top = `${e.clientY - 10}px`;
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
