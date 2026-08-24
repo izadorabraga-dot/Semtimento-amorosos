@@ -1,1 +1,1 @@
-# Semtimento-amorosos
+# Sentimento-amorosos
